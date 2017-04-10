@@ -1,3 +1,4 @@
+import { bindActionCreators } from 'redux';
 import Config from '../config.js';
 
 export const actionTypes = {
@@ -67,7 +68,14 @@ export function signPetition (petitionSignature, petition) {
   }
 }
 
+
 export const actions = {
   loadPetition,
   signPetition
 };
+
+export function petitionDispatchMapper (dispatch, ownProps) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+}
