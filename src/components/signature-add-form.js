@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {actions as petitionDispatchMapper} from '../actions/petitionActions.js';
+import {signPetition} from '../actions/petitionActions.js';
 
 class SignatureAddForm extends React.Component {
 
@@ -503,4 +503,10 @@ function mapStateToProps (state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, petitionDispatchMapper)(SignatureAddForm);
+function mapDispatchToProps (dispatch, ownProps) {
+  return {
+    signPetition: signPetition(dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignatureAddForm);

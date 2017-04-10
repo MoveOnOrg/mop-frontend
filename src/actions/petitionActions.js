@@ -51,8 +51,8 @@ export function loadPetition (petitionSlug) {
   };
 };
 
-export function signPetition (petitionSignature, petition) {
-  return (dispatch) => {
+export function signPetition (dispatch) {
+  return (petitionSignature, petition) => {
     console.log('from actions/signPetition', petition, petitionSignature);
     dispatch({
       'type': actionTypes.PETITION_SIGNATURE_SUBMIT,
@@ -73,9 +73,3 @@ export const actions = {
   loadPetition,
   signPetition
 };
-
-export function petitionDispatchMapper (dispatch, ownProps) {
-  return {
-    actions: bindActionCreators(actions, dispatch)
-  };
-}
