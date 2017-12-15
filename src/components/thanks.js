@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { actions as petitionActions } from '../actions/petitionActions.js'
+import { actions as petitionActions } from '../actions/petitionActions'
+import ThanksNextPetition from './thanks-next-petition'
 
 class Thanks extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      pre: 's' // TODO
+      pre: 's', // TODO
+      sharedSocially: false
     }
     this.recordShare = this.recordShare.bind(this)
     this.shareLink = this.shareLink.bind(this)
@@ -22,12 +24,12 @@ class Thanks extends React.Component {
 
   shareLink(evt) {
     evt.target.select()
-    this.recordShareClick('email', `${this.state.pre}.ln.cp`)
+    this.recordShare('email', `${this.state.pre}.ln.cp`)
   }
 
   shareEmail(evt) {
     evt.target.select()
-    this.recordShareClick('email', `${this.state.pre}.em.cp`)
+    this.recordShare('email', `${this.state.pre}.em.cp`)
   }
 
   openFacebookSharing(urlToShare) {
@@ -38,6 +40,7 @@ class Thanks extends React.Component {
       fbUrl = `${fbUrl}&r_by=${user.signonId}`
     } // TODO: signatureMessages hash alternative
     window.open(`https://www.facebook.com/share.php?u=${encodeURIComponent(fbUrl)}`)
+    this.setState({ sharedSocially: true })
   }
 
   shareFacebook() {
@@ -45,7 +48,7 @@ class Thanks extends React.Component {
     const shareOpts = (petition.share_options && petition.share_options[0]) || {}
     const self = this
     setTimeout(() => {
-      self.recordShareClick('facebook', `${self.state.pre}.fb`)
+      self.recordShare('facebook', `${self.state.pre}.fb`)
     }, 100)
     let fbUrl = petition._links.url
     if (shareOpts.facebook_share && shareOpts.facebook_share.share_url) {
@@ -66,7 +69,8 @@ class Thanks extends React.Component {
     const encodedValue = encodeURIComponent(this.tweetTextArea.value)
     const url = `http://twitter.com/intent/tweet?text=${encodedValue}`
     window.open(url)
-    this.recordShareClick('twitter', `${this.state.pre}.tw`)
+    this.recordShare('twitter', `${this.state.pre}.tw`)
+    this.setState({ sharedSocially: true })
   }
 
   render() {
@@ -109,6 +113,7 @@ Thanks!
     const copyPasteMessage = `Subject: ${petition.summary}\n\n${mailToMessage}`
 
     return (<div className='row'>
+      {(this.state.sharedSocially ? <ThanksNextPetition entity={petition.entity || ''} /> : null)}
       <div className='span4'>
         <h1 className='size-superxl lh-100 font-lighter'>Thanks!</h1>
       </div>

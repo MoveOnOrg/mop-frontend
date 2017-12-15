@@ -21,7 +21,7 @@ export const actionTypes = {
   PETITION_SIGNATURE_FAILURE: 'PETITION_SIGNATURE_FAILURE'
 }
 
-export function loadPetition(petitionSlug) {
+export function loadPetition(petitionSlug, forceReload) {
   const urlKey = `petitions/${petitionSlug}`
   if (global && global.preloadObjects && global.preloadObjects[urlKey]) {
     return (dispatch) => {
@@ -32,11 +32,22 @@ export function loadPetition(petitionSlug) {
       })
     }
   }
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({
       type: actionTypes.FETCH_PETITION_REQUEST,
       slug: petitionSlug
     })
+    const { petitionStore } = getState()
+    if (!forceReload
+        && petitionStore
+        && petitionStore.petitions
+        && petitionStore.petitions[petitionSlug]) {
+      return dispatch({
+        type: actionTypes.FETCH_PETITION_SUCCESS,
+        petition: petitionStore.petitions[petitionSlug],
+        slug: petitionSlug
+      })
+    }
     return fetch(`${Config.API_URI}/api/v1/${urlKey}.json`)
       .then(
         (response) => response.json().then((json) => {
@@ -57,40 +68,51 @@ export function loadPetition(petitionSlug) {
   }
 }
 
-export function loadTopPetitions(pac, megapartner) {
-  let urlKey = 'top-petitions'
-  if (pac) {
-    if (megapartner) {
-      urlKey += `?megapartner=${megapartner}&pac=1`
-    } else {
-      urlKey += '?pac=1'
-    }
-  } else if (megapartner) {
-    urlKey += `?megapartner=${megapartner}`
-  }
-
-  return (dispatch) => {
+export function loadTopPetitions(pac, megapartner, forceReload) {
+  // topPetitionsKey must not just be truthily equal but exact
+  // eslint-disable-next-line no-unneeded-ternary
+  const topPetitionsKey = `${pac ? 1 : 0}--${megapartner ? megapartner : ''}`
+  return (dispatch, getState) => {
     dispatch({
       type: actionTypes.FETCH_TOP_PETITIONS_REQUEST,
-      pac,
-      megapartner
+      topPetitionsKey
     })
-    return fetch(`${Config.API_URI}/api/v1/${urlKey}.json`)
+    const { userStore, petitionStore } = getState()
+    if (!forceReload
+        && petitionStore
+        && petitionStore.topPetitions
+        && petitionStore.topPetitions[topPetitionsKey]) {
+      return dispatch({
+        type: actionTypes.FETCH_TOP_PETITIONS_SUCCESS,
+        useCache: true,
+        topPetitionsKey
+      })
+    }
+    const query = []
+    if (pac !== null) {
+      query.push(`pac=${pac ? 1 : 0}`)
+    }
+    if (megapartner) {
+      query.push(`megapartner=${megapartner}`)
+    }
+    if (userStore && userStore.signonId) {
+      query.push(`user=${userStore.signonId}`)
+    }
+    const queryString = ((query.length) ? `?${query.join('&')}` : '')
+    return fetch(`${Config.API_URI}/api/v1/top-petitions.json${queryString}`)
       .then(
         (response) => response.json().then((json) => {
           dispatch({
             type: actionTypes.FETCH_TOP_PETITIONS_SUCCESS,
             petitions: json._embedded,
-            pac,
-            megapartner
+            topPetitionsKey
           })
         }),
         (err) => {
           dispatch({
             type: actionTypes.FETCH_TOP_PETITIONS_FAILURE,
             error: err,
-            pac,
-            megapartner
+            topPetitionsKey
           })
         }
       )

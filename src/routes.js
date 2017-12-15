@@ -20,10 +20,13 @@ export const routes = (store) => (
     <Route path={baseAppPath} component={Wrapper} onEnter={(nextState) => { store.dispatch(loadSession(nextState)) }} >
       <IndexRoute component={Home} />
       <Route path='/sign/:petition_slug' component={SignPetition} />
+      <Route path='/:organization/sign/:petition_slug' component={SignPetition} />
       <Route path='/thanks.html' component={ThanksPage} />
       <Route path='/find' component={SearchPage} />
       <Route path='/dashboard.html' component={PetitionCreatorDashboard} />
       <Route path='/create_start.html' component={CreatePetitionPage} />
+      <Route path='/:organization/create_start.html' component={CreatePetitionPage} />
+      <Route path='/:organization/' component={Home} />
     </Route>
   </Router>
 )

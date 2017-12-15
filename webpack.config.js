@@ -47,7 +47,13 @@ var config = {
       staticPath: (process.env.STATIC_ROOT || ''),
       cssPath: (process.env.NODE_ENV == 'production'
                 ? 'https://s3.amazonaws.com/mop-static/css/moui.css'
-                : '/css/moui.css')
+                : '/css/moui.css'),
+      reactJs: (process.env.LOCAL_REACT
+                ? process.env.LOCAL_REACT + 'react.js'
+                : 'https://unpkg.com/react@15.4.1/dist/react.js'),
+      reactDomJs: (process.env.LOCAL_REACT
+                   ? process.env.LOCAL_REACT + 'react-dom.js'
+                   : 'https://unpkg.com/react-dom@15.4.1/dist/react-dom.js')
     }),
     ((process.env.PROD)
      ? new webpack.optimize.UglifyJsPlugin({sourceMap: true})
