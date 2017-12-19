@@ -1,0 +1,38 @@
+.result {
+    margin-bottom: 10px;
+}
+.petition-link {
+    font-size: 18px;
+}
+.result-name {
+    margin-bottom: 2px;
+}
+.result-url {
+    margin-bottom: 2px;
+    color: green;
+}
+.result-blurb {
+    color: gray;
+    font-size: 12px;
+}
+#search-form-div {
+    margin: auto;
+    width: 60%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+#title {
+    margin-bottom: 10px;
+}
+#search-box {
+    width: 80%;
+}
+.feature-thumbnail {
+    width: 51px;
+    height: 51px;
+    padding: 0;
+    margin-right: 12px;
+}
+.result-text {
+    overflow: hidden;
+}

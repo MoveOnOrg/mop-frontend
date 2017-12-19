@@ -8,7 +8,7 @@ import TopPetitions from '../components/top-petitions'
 const Home = () => (
   <div className='container background-moveon-white bump-top-1'>
     <BillBoard />
-    <SearchBar />
+    <SearchBar size='long'/>
     <div className='row front-content'>
       <TopPetitions pac={0} megapartner='' source='homepage' />
       <RecentVictoryList />
