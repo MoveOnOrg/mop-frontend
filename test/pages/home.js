@@ -13,8 +13,8 @@ import TopPetitions from '../../src/components/top-petitions'
 
 
 describe('<Home />', () => {
-  const baseStore = createMockStore({ navStore: {}, petitionStore: {} })
-  const orgStore = createMockStore({ navStore: { orgs: {
+  const baseStore = createMockStore({ nav: {}, petitionStore: {} })
+  const orgStore = createMockStore({ nav: { orgs: {
     mop: {
       organization: 'M.O.P.',
       description: 'MOP stands for Mash Out Posse or MoveOn Petitions or ....',
