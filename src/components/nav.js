@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { orgCobrand } from '../selectors/nav'
 
 import NavLink from './nav-link'
 
-const Nav = ({ user, nav, organization }) => {
-  const cobrand = ((organization) ? nav.orgs[organization] : nav.partnerCobrand)
-
+const Nav = ({ user, cobrand }) => {
   const userLinks = (
     <div className='pull-right bump-top-1 span-7 top-menu'>
       <ul className='nav collapse nav-collapse'>
@@ -30,17 +29,21 @@ const Nav = ({ user, nav, organization }) => {
   )
 
   const userDashboardLink = (
-    <a className='icon-link-narrow icon-managepetitions' href='https://petitions.moveon.org/dashboard.html?source=topnav'> {`${user.given_name}’s`} Dashboard</a>
+    <a
+      className='icon-link-narrow icon-managepetitions'
+      href='https://petitions.moveon.org/dashboard.html?source=topnav'
+    > {`${user.given_name}’s`} Dashboard</a>
   )
 
   const guestDashboardLink = (
     <a className='icon-link-narrow icon-managepetitions' href='https://petitions.moveon.org/dashboard.html?source=topnav'>Manage Petitions</a>
   )
 
-  const partnerLogoLinks = (
-    (cobrand)
-      ? (<a href={cobrand.browser_url}><img className='org_logo' src={cobrand.logo_image_url} alt={`${cobrand.organization} logo`} /></a>
-        ) : null)
+  const partnerLogoLinks = cobrand && (
+    <a href={cobrand.browser_url}>
+      <img className='org_logo' src={cobrand.logo_image_url} alt={`${cobrand.organization} logo`} />
+    </a>
+  )
 
   return (
     <div>
@@ -90,14 +93,14 @@ const Nav = ({ user, nav, organization }) => {
 
 Nav.propTypes = {
   user: PropTypes.object,
-  nav: PropTypes.object,
+  cobrand: PropTypes.object,
   organization: PropTypes.string
 }
 
-function mapStateToProps(store) {
+function mapStateToProps(state, ownProps) {
   return {
-    user: store.userStore,
-    nav: store.navStore
+    user: state.userStore,
+    cobrand: orgCobrand(state, ownProps.organization)
   }
 }
 

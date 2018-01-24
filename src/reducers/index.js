@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { actionTypes as petitionActionTypes } from '../actions/petitionActions.js'
 import { actionTypes as sessionActionTypes } from '../actions/sessionActions.js'
-import navStore from './nav'
+import nav from './nav'
 // Function fetchPetitionRequest(petitionSlug) {
 //     Return {
 //         Type: FETCH_PETTION_REQUEST,
@@ -232,7 +232,7 @@ function userReducer(state = initialUserState, action) {
 }
 
 const rootReducer = combineReducers({
-  navStore,
+  nav,
   petitionStore: petitionReducer,
   petitionSearchStore: petitionSearchReducer,
   userStore: userReducer

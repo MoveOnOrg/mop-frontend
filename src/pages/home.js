@@ -2,31 +2,40 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import { navOrg } from '../selectors/nav'
 import { Config } from '../config.js'
 import BillBoard from '../components/billboard'
 import SearchBar from '../components/searchbar'
 import RecentVictoryList from '../components/recentvictory.js'
 import TopPetitions from '../components/top-petitions'
 
-const Home = ({ params, nav }) => {
-  const { organization } = params
+const Home = ({ params: { organization }, org }) => {
   const isOrganization = Boolean(organization && organization !== 'pac')
+  const notOrganization = !isOrganization
   const isPac = (organization === 'pac' || (!isOrganization && Config.ENTITY === 'pac'))
-  const orgData = (nav && nav.orgs && nav.orgs[organization]) || {}
+
+  // Pull the properties from the organization object
+  // use a default description if none is defined.
+  const {
+    // orgName = org.organization || params.organization
+    organization: orgName = organization,
+    description = `${orgName} is a MoveOn MegaPartner, an invite-only program that lets a partner organization&#39;s members and activists set up their own MoveOn petitions in partnership with the original organization.`
+  } = org
+
   return (
     <div className='moveon-petitions container background-moveon-white bump-top-1'>
-      {isOrganization ? null : <BillBoard />}
+      {notOrganization && <BillBoard />}
       <SearchBar />
 
-      {isOrganization
-       ? (
+      {isOrganization && (
         <div className='organization-header'>
-          <h2>{orgData.organization}</h2>
-          {orgData.description || `${orgData.organization} is a MoveOn MegaPartner, an invite-only program that lets a partner organization&#39;s members and activists set up their own MoveOn petitions in partnership with the original organization.`}
-          <p className='pull-right'><a href='create_start.html' className='button background-moveon-bright-red'>Create a petition</a></p>
+          <h2>{orgName}</h2>
+          {description}
+          <p className='pull-right'>
+            <a href='create_start.html' className='button background-moveon-bright-red'>Create a petition</a>
+          </p>
         </div>
-       ) : null
-      }
+       )}
 
       <div className='row front-content'>
         <TopPetitions
@@ -35,21 +44,28 @@ const Home = ({ params, nav }) => {
           fullWidth={isOrganization}
           source='homepage'
         />
-        {isOrganization ? null : <RecentVictoryList />}
+        {notOrganization && <RecentVictoryList />}
       </div>
     </div>
   )
 }
 
 Home.propTypes = {
-  nav: PropTypes.object,
+  org: PropTypes.object,
   params: PropTypes.object
 }
 
-function mapStateToProps(store) {
+Home.defaultProps = {
+  params: {},
+  org: {}
+}
+
+function mapStateToProps(state, ownProps) {
   return {
-    nav: store.navStore
+    org: navOrg(state, ownProps.params.organization) || {}
   }
 }
 
 export default connect(mapStateToProps)(Home)
+
+export const WrappedComponent = Home

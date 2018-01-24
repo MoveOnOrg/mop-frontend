@@ -1,6 +1,8 @@
 import 'whatwg-fetch'
+import { navOrg } from '../selectors/nav'
 
 import Config from '../config.js'
+
 
 export const actionTypes = {
   FETCH_ORG_REQUEST: 'FETCH_ORG_REQUEST',
@@ -8,31 +10,30 @@ export const actionTypes = {
   FETCH_ORG_FAILURE: 'FETCH_ORG_FAILURE'
 }
 
-export function loadOrganization(orgSlug, forceReload) {
-  const urlKey = `organizations/${orgSlug}`
+export function loadOrganization(slug, forceReload) {
+  const urlKey = `organizations/${slug}`
   if (global && global.preloadObjects && global.preloadObjects[urlKey]) {
     return (dispatch) => {
       dispatch({
         type: actionTypes.FETCH_ORG_SUCCESS,
         org: window.preloadObjects[urlKey],
-        slug: orgSlug
+        slug
       })
     }
   }
   return (dispatch, getState) => {
     dispatch({
       type: actionTypes.FETCH_ORG_REQUEST,
-      slug: orgSlug
+      slug
     })
-    const { navStore } = getState()
-    if (!forceReload
-        && navStore
-        && navStore.orgs
-        && navStore.orgs[orgSlug]) {
+    const state = getState()
+    const org = navOrg(state, slug)
+
+    if (!forceReload && org) {
       return dispatch({
         type: actionTypes.FETCH_ORG_SUCCESS,
-        org: navStore.orgs[orgSlug],
-        slug: orgSlug
+        org,
+        slug
       })
     }
     return fetch(`${Config.API_URI}/api/v1/${urlKey}.json`)
@@ -41,14 +42,14 @@ export function loadOrganization(orgSlug, forceReload) {
           dispatch({
             type: actionTypes.FETCH_ORG_SUCCESS,
             org: json,
-            slug: json.name || orgSlug
+            slug: json.name || slug
           })
         }),
         (err) => {
           dispatch({
             type: actionTypes.FETCH_ORG_FAILURE,
             error: err,
-            slug: orgSlug
+            slug
           })
         }
       )
