@@ -193,6 +193,16 @@ Thanks!
             ></textarea>
           </div>
         </div>
+        <div id='hidden_share_link' className='lanky-header bump-top-3 align-center hidden'>
+          Send a link:
+          <textarea
+            ref={(input) => { this.linkTextarea = input }}
+            onClick={this.shareLink}
+            id='link_text'
+            defaultValue={rawShareLink}
+            readOnly
+          ></textarea>
+        </div>
         <div className='span7 padding-top-1'>
           <div className='share-email align-center'>
             <div className='lanky-header align-center'><span className='icon-join-default'></span>Email your friends, family and colleagues:</div>
