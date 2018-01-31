@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
 import NavLink from './nav-link'
 
-const Nav = ({ user, nav, organization }) => {
+const Nav = ({ user, nav, organization, minimal }) => {
   const cobrand = ((organization) ? nav.orgs[organization] : nav.partnerCobrand)
 
   const userLinks = (
@@ -30,16 +31,16 @@ const Nav = ({ user, nav, organization }) => {
   )
 
   const userDashboardLink = (
-    <a className='icon-link-narrow icon-managepetitions' href='https://petitions.moveon.org/dashboard.html?source=topnav'> {`${user.given_name}’s`} Dashboard</a>
+    <Link className='icon-link-narrow icon-managepetitions' to='/dashboard.html?source=topnav'> {`${user.given_name}’s`} Dashboard</Link>
   )
 
   const guestDashboardLink = (
-    <a className='icon-link-narrow icon-managepetitions' href='https://petitions.moveon.org/dashboard.html?source=topnav'>Manage Petitions</a>
+    <Link className='icon-link-narrow icon-managepetitions' to='/dashboard.html?source=topnav'>Manage Petitions</Link>
   )
 
   const partnerLogoLinks = (
     (cobrand)
-      ? (<a href={cobrand.browser_url}><img className='org_logo' src={cobrand.logo_image_url} alt={`${cobrand.organization} logo`} /></a>
+      ? (<Link to={cobrand.browser_url}><img className='org_logo' src={cobrand.logo_image_url} alt={`${cobrand.organization} logo`} /></Link>
         ) : null)
 
   return (
@@ -47,34 +48,37 @@ const Nav = ({ user, nav, organization }) => {
       <div className='container' id='header'>
         <div className='row'>
           <div className='moveon-masthead pull-left hidden-phone'>
-            <a href='/'>MoveOn.org</a>
+            <Link to='/'>MoveOn.org</Link>
           </div>
 
           <div className='mobile visible-phone'>
             <div className='moveon-masthead pull-left'>
-              <a href='/'>MoveOn.org</a>
+              <Link to='/'>MoveOn.org</Link>
             </div>
           </div>
+          {!minimal
+            ? ( // when not minimal, we have a bunch of links for you!
+            <div>
+              <div className='pull-left top-icons hidden-phone'>
+                <div className='pull-left span2 petitions-partner-logo bump-top-1 margin-right-2 hidden-phone'>
+                 {partnerLogoLinks}
+                </div>
+                <Link className='icon-link-narrow icon-start' to='/create_start.html?source=topnav'>Start a petition</Link>
+                {user.given_name ? userDashboardLink : guestDashboardLink}
+              </div>
 
-          <div className='pull-left top-icons hidden-phone'>
-            <div className='pull-left span2 petitions-partner-logo bump-top-1 margin-right-2 hidden-phone'>
-              {partnerLogoLinks}
+              <div className='pull-left top-icons visible-phone'>
+                <Link className='icon-link-narrow icon-start' to='/create_start.html?source=topnav-mobile' />
+                <Link className='icon-link-narrow icon-managepetitions' to='/dashboard.html' />
+              </div>
+
+              <a className='btn visible-phone pull-right bump-top-2' data-toggle='collapse' data-target='.nav-collapse'>
+                <span className='icon-th-list'></span>
+              </a>
+
+              {user.signonId ? userLinks : guestLinks}
             </div>
-            <a className='icon-link-narrow icon-start' href='https://petitions.moveon.org/create_start.html?source=topnav'>Start a petition</a>
-            {user.given_name ? userDashboardLink : guestDashboardLink}
-          </div>
-
-          <div className='pull-left top-icons visible-phone'>
-            <a className='icon-link-narrow icon-start' href='https://petitions.moveon.org/create_start.html?source=topnav-mobile'></a>
-            <a className='icon-link-narrow icon-managepetitions' href='https://petitions.moveon.org/dashboard.html'></a>
-          </div>
-
-          <a className='btn visible-phone pull-right bump-top-2' data-toggle='collapse' data-target='.nav-collapse'>
-            <span className='icon-th-list'></span>
-          </a>
-
-          {user.signonId ? userLinks : guestLinks}
-
+            ) : null}
         </div>
       </div>
       <div className='container visible-phone'>
@@ -91,7 +95,8 @@ const Nav = ({ user, nav, organization }) => {
 Nav.propTypes = {
   user: PropTypes.object,
   nav: PropTypes.object,
-  organization: PropTypes.string
+  organization: PropTypes.string,
+  minimal: PropTypes.bool
 }
 
 function mapStateToProps(store) {

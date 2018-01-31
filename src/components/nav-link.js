@@ -1,8 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 
 const NavLink = ({ to, children }) => (
-  <li><a className='lh-14 navlink' href={to}>{children}</a></li>
+  <li><Link className='lh-14 navlink' to={to}>{children}</Link></li>
 )
 
 NavLink.propTypes = {

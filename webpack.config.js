@@ -67,7 +67,8 @@ var config = {
         'API_WRITABLE': JSON.stringify(process.env.API_WRITABLE || process.env.PROD),
         'API_SIGN_PETITION': JSON.stringify(process.env.API_SIGN_PETITION || ''),
         'BASE_APP_PATH': JSON.stringify(process.env.BASE_APP_PATH || '/'),
-        'BASE_URL': JSON.stringify(process.env.BASE_URL || 'https://petitions.moveon.org'),
+        'BASE_URL': JSON.stringify(process.env.BASE_URL
+                                   || (process.env.PROD ? 'https://petitions.moveon.org' : '')),
         'SESSION_COOKIE_NAME': JSON.stringify(process.env.SESSION_COOKIE_NAME || 'SO_SESSION'),
         'STATIC_ROOT': JSON.stringify(process.env.STATIC_ROOT || ''),
         'TRACK_SHARE_URL': JSON.stringify(process.env.TRACK_SHARE_URL || ''),

@@ -36,8 +36,8 @@ class SearchResultPagination extends React.Component {
     const nextPage = currentPage + 1
     const prevPage = Math.max(1, currentPage - 1)
 
-    const nextPageLinkUrl = `find?q=${q}&page=${nextPage}`
-    const prevPageLinkUrl = `find?q=${q}&page=${prevPage}`
+    const nextPageLinkUrl = `/find?q=${q}&page=${nextPage}`
+    const prevPageLinkUrl = `/find?q=${q}&page=${prevPage}`
 
     const numPages = Math.ceil(resultCount / pageSize)
     const pages = []

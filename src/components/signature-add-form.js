@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
 import CountrySelect from './form/country-select'
 import StateOrRegionInput from './form/state-or-region-input'
@@ -383,11 +384,11 @@ class SignatureAddForm extends React.Component {
 
            {(this.props.showOptinWarning) ? (
              <p className='disclaimer bump-top-1'>
-               <b>Note:</b> This petition is a project of {creator.organization} and MoveOn.org. By signing, you agree to receive email messages from <span id='organization_receive'>{creator.organization}, </span>MoveOn Political Action, and MoveOn Civic Action. You may unsubscribe at any time. [<a href='https://petitions.moveon.org/privacy.html'>privacy policy</a>]
+               <b>Note:</b> This petition is a project of {creator.organization} and MoveOn.org. By signing, you agree to receive email messages from <span id='organization_receive'>{creator.organization}, </span>MoveOn Political Action, and MoveOn Civic Action. You may unsubscribe at any time. [<Link to='/privacy.html'>privacy policy</Link>]
              </p>)
             : (
              <p className='disclaimer bump-top-1'>
-               <b>Note:</b> By signing, you agree to receive email messages from MoveOn.org Civic Action and MoveOn.org Political Action. You may unsubscribe at any time. [ <a href='https://petitions.moveon.org/privacy.html'>Privacy policy</a> ]
+               <b>Note:</b> By signing, you agree to receive email messages from MoveOn.org Civic Action and MoveOn.org Political Action. You may unsubscribe at any time. [ <Link to='/privacy.html'>Privacy policy</Link> ]
              </p>)}
 
 

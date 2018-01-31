@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 const Footer = () => (
   <div className='container footer'>
@@ -11,19 +12,19 @@ const Footer = () => (
         </div>
         <div className='row'>
           <div className='span4'>
-            <a className='icon-start icon-link-narrow' href='https://petitions.moveon.org/create_start.html?source=bnav'>Start a Petition</a>
-            <a className='icon-link-narrow icon-managepetitions' href='https://petitions.moveon.org/dashboard.html'>Dashboard</a>
+            <Link className='icon-start icon-link-narrow' to='/create_start.html?source=bnav'>Start a Petition</Link>
+            <Link className='icon-link-narrow icon-managepetitions' to='/dashboard.html'>Dashboard</Link>
             <ul className='nav'>
               <li><a className='lh-14 navlink' href='/login/do_logout.html?redirect=/index.html'>Logout</a></li>
-              <li><a href='https://petitions.moveon.org/organizations.html'>Organizations</a></li>
+              <li><Link to='/organizations.html'>Organizations</Link></li>
               <li><a href='https://front.moveon.org/category/victories/'>Victories</a></li>
               <li><a href='https://civic.moveon.org/donatec4/creditcard.html?cpn_id=511'>Donate</a></li>
               <li><a href='https://act.moveon.org/survey/press'>Press</a></li>
-              <li><a href='https://petitions.moveon.org/feedback.html'>Contact</a></li>
+              <li><Link to='/feedback.html'>Contact</Link></li>
               <li><a href='https://front.moveon.org/blog/'>Blog</a></li>
-              <li><a href='https://petitions.moveon.org/login/register.html'>Sign Up</a></li>
-              <li><a href='https://petitions.moveon.org/privacy.html'>Privacy Policy</a></li>
-              <li><a href='https://petitions.moveon.org/terms.html'>Terms of Use</a></li>
+              <li><Link to='/login/register.html'>Sign Up</Link></li>
+              <li><Link to='/privacy.html'>Privacy Policy</Link></li>
+              <li><Link to='/terms.html'>Terms of Use</Link></li>
               <li><a href='https://front.moveon.org/careers'>Careers</a></li>
             </ul>
           </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 
 import Sparkline from './sparkline'
@@ -21,7 +22,7 @@ const PetitionReport = ({ petition, signatureStats }) => (
             </tr>
             <tr>
               <td className='name'>URL</td>
-              <td><a href={`https://petitions.moveon.org/sign/${petition.name}`} target='_blank'>https://petitions.moveon.org/sign/{petition.name}</a></td>
+              <td><Link to={`/sign/${petition.name}`} target='_blank'>https://petitions.moveon.org/sign/{petition.name}</Link></td>
             </tr>
           </table>
 

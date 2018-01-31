@@ -169,7 +169,7 @@ export const registerSignatureAndThanks = (petition, signature) => () => {
     window.gtag('event', 'conversion', { send_to: petition.gtag_keys })
   }
   // 2. show thanks page
-  let thanksUrl = 'thanks.html'
+  let thanksUrl = '/thanks.html'
   if (petition.thanks_url) {
     if (/^https?:\/\//.test(petition.thanks_url)) {
       document.location = petition.thanks_url // FUTURE: maybe add some query params

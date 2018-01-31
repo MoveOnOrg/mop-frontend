@@ -5,9 +5,12 @@ import PropTypes from 'prop-types'
 import Nav from './nav.js'
 import Footer from './footer.js'
 
-const Wrapper = ({ children, params }) => (
+const Wrapper = ({ children, params, routes }) => (
   <div className='moveon-petitions'>
-    <Nav organization={params && params.organization || ''} />
+    <Nav
+      organization={params && params.organization || ''}
+      minimal={!!routes[routes.length - 1].minimalNav}
+    />
     <main className='main'>
       {children}
     </main>
@@ -19,7 +22,8 @@ const Wrapper = ({ children, params }) => (
 
 Wrapper.propTypes = {
   children: PropTypes.object.isRequired,
-  params: PropTypes.object
+  params: PropTypes.object,
+  routes: PropTypes.object.isRequired
 }
 
 export default Wrapper
