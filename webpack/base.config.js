@@ -38,7 +38,13 @@ var config = {
       }
     ]
   },
-  plugins : [
+  resolve: {
+    alias: {
+      Giraffe: path.resolve(__dirname, '../src/components/giraffe/'),
+      Legacy: path.resolve(__dirname, '../src/components/legacy/')
+    }
+  },
+  plugins: [
     new HtmlWebpackPlugin({
       template: 'local/index.html',
       inject: 'body',

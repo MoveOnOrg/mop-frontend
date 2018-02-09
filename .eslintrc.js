@@ -13,6 +13,7 @@ module.exports = {
     'no-alert': ['off'],
     'jsx-quotes': ['error', 'prefer-single'],
     'max-len': ['off'],
-    'prefer-object-spread/prefer-object-spread': 2
+    'prefer-object-spread/prefer-object-spread': 2,
+    'import/no-unresolved': 'off'
   }
 }

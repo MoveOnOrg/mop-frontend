@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { Config } from '../config.js'
-import BillBoard from '../components/legacy/billboard'
+import BillBoard from 'Giraffe/billboard'
 import SearchBar from './searchbar'
-import RecentVictoryList from '../components/legacy/recentvictory.js'
+import RecentVictoryList from 'Legacy/recentvictory.js'
 import TopPetitions from './top-petitions'
-import OrganizationHeader from '../components/legacy/organization-header'
+import OrganizationHeader from 'Legacy/organization-header'
 
 const Home = ({ params, nav }) => {
   const { organization } = params
