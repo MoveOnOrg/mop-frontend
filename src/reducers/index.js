@@ -4,6 +4,8 @@ import { actionTypes as accountActionTypes } from '../actions/accountActions.js'
 import navStore from './nav'
 import staticPageReducer from './static-pages'
 import userReducer from './user'
+import petitionTargetsReducer from './petition-targets'
+import petitionCreateReducer from './petition-create'
 
 // Function fetchPetitionRequest(petitionSlug) {
 //     Return {
@@ -167,8 +169,9 @@ const rootReducer = combineReducers({
   petitionStore: petitionReducer,
   petitionSearchStore: petitionSearchReducer,
   userStore: userReducer,
-  staticPageStore: staticPageReducer
-
+  staticPageStore: staticPageReducer,
+  petitionTargetsStore: petitionTargetsReducer,
+  petitionCreateStore: petitionCreateReducer
 })
 
 export default rootReducer

@@ -1,0 +1,37 @@
+[
+{
+  "label": "Sen. Brian Schatz (HI-1)",
+  "name": "Sen. Brian Schatz (HI-1)",
+  "value": "senatemem:HI_1:Sen. Brian Schatz (HI-1)"
+},
+{
+  "label": "Sen. Mazie Hirono (HI-2)",
+  "name": "Sen. Mazie Hirono (HI-2)",
+  "value": "senatemem:HI_2:Sen. Mazie Hirono (HI-2)"
+},
+{
+  "label": "Sen. Charles Grassley (IA-1)",
+  "name": "Sen. Charles Grassley (IA-1)",
+  "value": "senatemem:IA_1:Sen. Charles Grassley (IA-1)"
+},
+{
+  "label": "Sen. Joni Ernst (IA-2)",
+  "name": "Sen. Joni Ernst (IA-2)",
+  "value": "senatemem:IA_2:Sen. Joni Ernst (IA-2)"
+},
+{
+  "label": "Sen. Michael Crapo (ID-1)",
+  "name": "Sen. Michael Crapo (ID-1)",
+  "value": "senatemem:ID_1:Sen. Michael Crapo (ID-1)"
+},
+{
+  "label": "Sen. James Risch (ID-2)",
+  "name": "Sen. James Risch (ID-2)",
+  "value": "senatemem:ID_2:Sen. James Risch (ID-2)"
+},
+{
+  "label": "Sen. Richard Durbin (IL-1)",
+  "name": "Sen. Richard Durbin (IL-1)",
+  "value": "senatemem:IL_1:Sen. Richard Durbin (IL-1)"
+}
+]

@@ -1,19 +1,54 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
+import { previewSubmit } from '../actions/createPetitionActions'
 
 import CreatePetitionForm from 'LegacyTheme/create-petition-form'
 
-class CreatePetition extends React.Component {
+const ERRORS = {
+  name: 'Please provide a title for your petition.',
+  text_statement: 'Please fill in the statement for your petition.',
+  target: 'You must select at least one target for your petition.',
+  text_about: 'Please provide background info for your petition.'
+}
+
+export class CreatePetition extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       selected: 'title',
-      nationalOpen: false,
-      stateOpen: false,
-      customOpen: false
+      errors: [],
+      data: {
+        title: '',
+        summary: '',
+        target: [],
+        description: ''
+      }
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
-    this.toggleOpen = this.toggleOpen.bind(this)
+    this.onPreview = this.onPreview.bind(this)
+    this.onInputChange = this.onInputChange.bind(this)
+    this.getValue = this.getValue.bind(this)
+  }
+
+  onInputChange(event) {
+    const { name, value } = event.target
+    this.setState(state => ({
+      data: { ...state.data, [name]: value }
+    }))
+  }
+
+  onPreview(event) {
+    event.preventDefault()
+    if (this.formIsValid()) {
+      this.props.dispatch(previewSubmit(this.state.data))
+    }
+  }
+
+  getValue(name) {
+    return this.state.data[name]
   }
 
   setSelected(name) {
@@ -23,11 +58,21 @@ class CreatePetition extends React.Component {
   setRef(name) {
     return input => input && (this[name] = input)
   }
-  toggleOpen(section) {
-    return () => this.setState(prevState => {
-      const prev = prevState[section]
-      return { [section]: !prev }
-    })
+
+  formIsValid() {
+    const data = this.state.data
+    const errors = []
+    if (!data.title) errors.push(ERRORS.name)
+    if (!data.summary) errors.push(ERRORS.text_statement)
+    if (!data.target.length) errors.push(ERRORS.target)
+    if (!data.description) errors.push(ERRORS.text_about)
+
+    if (errors.length) {
+      this.setState({ errors })
+      return false
+    }
+
+    return true
   }
 
   render() {
@@ -45,7 +90,8 @@ class CreatePetition extends React.Component {
     const bodyTop = document.body.getBoundingClientRect().top + 175
 
     if (typeof selectedElement !== 'undefined') {
-      instructionStyle.top = selectedElement.getBoundingClientRect().top - bodyTop
+      instructionStyle.top =
+        selectedElement.getBoundingClientRect().top - bodyTop
     }
 
     return (
@@ -53,16 +99,20 @@ class CreatePetition extends React.Component {
         <CreatePetitionForm
           setSelected={this.setSelected}
           setRef={this.setRef}
-          toggleOpen={this.toggleOpen}
           selected={this.state.selected}
-          nationalOpen={this.state.nationalOpen}
-          stateOpen={this.state.stateOpen}
-          customOpen={this.state.customOpen}
           instructionStyle={instructionStyle}
+          errors={this.state.errors}
+          getValue={this.getValue}
+          onChange={this.onInputChange}
+          onPreview={this.onPreview}
         />
       </div>
     )
   }
 }
 
-export default CreatePetition
+CreatePetition.propTypes = {
+  dispatch: PropTypes.func
+}
+
+export default connect()(CreatePetition)
