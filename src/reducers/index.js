@@ -130,11 +130,17 @@ function petitionReducer(state = initialPetitionState, action) {
         return state
       }
       updateData = {
-        petitions: Object.assign({}, state.petitions,
-                                 ...petitions.map((topPetition) => ({
-                                   [topPetition.name]: topPetition,
-                                   [topPetition.petition_id]: topPetition
-                                 }))),
+        petitions: Object.assign(
+          {},
+          state.petitions,
+          ...petitions.map(topPetition => {
+            const p = { ...topPetition, ...{ slug: topPetition.name } }
+            return {
+              [topPetition.name]: p,
+              [topPetition.petition_id]: p
+            }
+          })
+        ),
         topPetitions: {
           ...state.topPetitions,
           [topPetitionsKey]: petitions.map(topPetition => topPetition.petition_id)
