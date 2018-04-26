@@ -12,7 +12,8 @@ class SignPetition extends React.Component {
     super(props)
     this.state = {
       deviceSize: null,
-      floatingSignVisible: false
+      floatingSignVisible: false,
+      signFormWasVisible: false
     }
     this.setRef = this.setRef.bind(this)
     this.focusSign = this.focusSign.bind(this)
@@ -34,6 +35,13 @@ class SignPetition extends React.Component {
     LoadableThanks.preload()
     this.updateWindowDimensions()
     window.addEventListener('resize', this.updateWindowDimensions)
+
+    setTimeout(() => {
+      // React-waypoint will set signFormWasVisible if the sign-form is above the fold
+      if (!this.state.signFormWasVisible) {
+        this.setState({ floatingSignVisible: true })
+      }
+    }, 200)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,7 +96,9 @@ class SignPetition extends React.Component {
   }
 
   updateWindowDimensions() {
-    this.setState({ deviceSize: window.innerWidth < 768 ? 'mobile' : 'desktop' })
+    this.setState({
+      deviceSize: window.innerWidth < 768 ? 'mobile' : 'desktop'
+    })
   }
 
   checkOrgPathMatches(petition, orgPath) {
@@ -129,7 +139,12 @@ class SignPetition extends React.Component {
           outOfDate={outOfDate}
           isFloatingSignVisible={this.state.floatingSignVisible}
           scrollToSignFormProps={this.getScrollToSignFormProps}
-          hideFloatingSign={() => this.setState({ floatingSignVisible: false })}
+          hideFloatingSign={() =>
+            this.setState({
+              signFormWasVisible: true,
+              floatingSignVisible: false
+            })
+          }
           showFloatingSign={() => this.setState({ floatingSignVisible: true })}
           setRef={this.setRef}
         />
@@ -147,7 +162,8 @@ SignPetition.propTypes = {
 }
 
 function mapStateToProps(store, ownProps) {
-  const petition = store.petitionStore.petitions[ownProps.params.petition_slug.split('.')[0]]
+  const petition =
+    store.petitionStore.petitions[ownProps.params.petition_slug.split('.')[0]]
   return {
     petition,
     sign_success:
