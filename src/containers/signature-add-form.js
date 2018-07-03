@@ -6,7 +6,7 @@ import SignatureAddFormComponent from 'Theme/signature-add-form'
 
 import { signPetition, devLocalSignPetition } from '../actions/petitionActions'
 import { actions as sessionActions } from '../actions/sessionActions'
-import { isValidEmail, FormTracker } from '../lib'
+import { isValidEmail, FormTracker, smsSignUp } from '../lib'
 import Config from '../config'
 
 class SignatureAddForm extends React.Component {
@@ -237,6 +237,9 @@ class SignatureAddForm extends React.Component {
       this.formTracker.submitForm({
         loginstate: (this.props.user.anonymous ? 0 : 1)
       })
+      if (this.state.mobile_optin && this.state.phone) {
+        smsSignUp(this.state.phone)
+      }
       const osdiSignature = this.getOsdiSignature()
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }

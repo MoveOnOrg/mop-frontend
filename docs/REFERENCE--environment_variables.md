@@ -19,3 +19,5 @@ LOCAL_REACT                       | Dev only: a path with react.js and react-dom
 LOCAL_CSS                         | Dev only: a theme-giraffe style.css. E.g. `http://localhost:3000/styles/main.css`, as served by `gulp watch` in the giraffe repo, so you can change css and/or develop offline. _Default_: Loads css from the mop-static-stage s3 bucket
 AB_TEST_ENABLED                   | When set to an integer, enables AB test
 FAKE_ANALYTICS                    | Dev only: set to true if window.analytics isnt exposed from backend server
+MOBILE_API_KEY                    | Authorization Key that allows requests to the Revere mobile API
+MOBILE_FLOW_ID                    | Hash for the Revere flow triggered when a user is signed up for SMS

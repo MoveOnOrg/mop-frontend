@@ -12,6 +12,8 @@ export const Config = {
   STATIC_ROOT: process.env.STATIC_ROOT,
   WORDPRESS_API_URI: process.env.WORDPRESS_API_URI,
   AB_TEST_ENABLED: process.env.AB_TEST_ENABLED,
-  FAKE_ANALYTICS: process.env.FAKE_ANALYTICS
+  FAKE_ANALYTICS: process.env.FAKE_ANALYTICS,
+  MOBILE_FLOW_ID: process.env.MOBILE_FLOW_ID,
+  MOBILE_API_KEY: process.env.MOBILE_API_KEY
 }
 export default Config

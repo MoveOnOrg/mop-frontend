@@ -4,6 +4,7 @@ import Config from '../config'
 export { getStateFullName, getRegions, armedForcesRegions } from './state-abbrev'
 export { countries } from './countries'
 export { FormTracker } from './form-tracker'
+export { smsSignUp } from './sms-signup'
 
 export const formatDate = date => {
   const monthAbbr = [
