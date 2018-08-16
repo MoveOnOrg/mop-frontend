@@ -23,6 +23,7 @@ const CreatePetitionForm = ({
   selected,
   setSelected,
   instructionStyle,
+  setFormRef,
   setRef,
   errors,
   onChange,
@@ -42,7 +43,7 @@ const CreatePetitionForm = ({
     <div className='container'>
       <div className='row'>
         <div className='background-moveon-light-gray span6 start-form'>
-          <form id='petition_form' onSubmit={onPreview}>
+          <form id='petition_form' ref={setFormRef} onSubmit={onPreview}>
             <ul className='errors'>
               {errors.map(err => <li key={err}>{err}</li>)}
             </ul>
@@ -135,6 +136,7 @@ CreatePetitionForm.propTypes = {
   selected: PropTypes.string,
   setSelected: PropTypes.func,
   instructionStyle: PropTypes.object,
+  setFormRef: PropTypes.func,
   setRef: PropTypes.func,
   errors: PropTypes.array.isRequired,
   onChange: PropTypes.func,

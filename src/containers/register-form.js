@@ -18,6 +18,12 @@ class Register extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.validateForm = this.validateForm.bind(this)
     this.errorList = this.errorList.bind(this)
+    this.onChangeTracking = this.onChangeTracking.bind(this)
+  }
+
+  componentDidMount() {
+    if (!this.props.formTracker) return
+    this.props.formTracker.setForm(this.form)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -26,6 +32,14 @@ class Register extends React.Component {
       this.password.value = ''
       this.passwordConfirm.value = ''
     }
+  }
+
+  onChangeTracking(e) {
+    // just to handle tracking of inputs
+    // user data will be read from refs
+    const { formTracker } = this.props
+    if (!formTracker) return
+    formTracker.updateFormProgress({ fieldchanged: e.target.name })
   }
 
   /**
@@ -59,6 +73,7 @@ class Register extends React.Component {
     }
     if (errors.length) {
       this.setState({ presubmitErrors: errors })
+      if (this.props.formTracker) this.props.formTracker.validationErrorTracker()
     }
     return !errors.length
   }
@@ -101,10 +116,12 @@ class Register extends React.Component {
         handleSubmit={this.handleSubmit}
         // eslint-disable-next-line no-return-assign
         setRef={input => input && (this[input.name] = input)}
+        setFormRef={ref => { this.form = ref }}
         isSubmitting={this.props.isSubmitting}
         includeZipAndPhone={this.props.includeZipAndPhone}
         useLaunchButton={this.props.useLaunchButton}
         useAlternateFields={this.props.useAlternateFields}
+        onChangeTracking={this.onChangeTracking}
       />
     )
   }
@@ -123,7 +140,8 @@ Register.propTypes = {
   useLaunchButton: PropTypes.bool,
   useAlternateFields: PropTypes.bool,
   successCallback: PropTypes.func,
-  isCreatingPetition: PropTypes.bool
+  isCreatingPetition: PropTypes.bool,
+  formTracker: PropTypes.object
 }
 
 function mapStateToProps({ userStore = {}, petitionCreateStore = {} }) {

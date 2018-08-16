@@ -20,7 +20,8 @@ export function previewSubmit({
   target,
   source,
   clonedFromId,
-  solicitId
+  solicitId,
+  trackingState
 }) {
   return {
     type: actionTypes.CREATE_PETITION_PREVIEW_SUBMIT,
@@ -30,7 +31,8 @@ export function previewSubmit({
     target,
     source,
     clonedFromId,
-    solicitId
+    solicitId,
+    trackingState
   }
 }
 

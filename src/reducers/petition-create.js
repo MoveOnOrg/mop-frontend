@@ -12,7 +12,8 @@ const reducer = (state = {}, action) => {
         target: action.target,
         source: action.source,
         cloned_from_id: action.clonedFromId,
-        solicit_id: action.solicitId
+        solicit_id: action.solicitId,
+        trackingState: action.trackingState
       }
     case actionTypes.CREATE_PETITION_REQUEST:
       return {

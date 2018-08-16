@@ -11,14 +11,16 @@ const RegisterForm = ({
   errorList,
   handleSubmit,
   setRef,
+  setFormRef,
   isSubmitting,
   includeZipAndPhone,
   useLaunchButton,
-  useAlternateFields
+  useAlternateFields,
+  onChangeTracking
 }) => (
   <React.Fragment>
     <ul className='errors'>{errorList && errorList()}</ul>
-    <form method='POST' onSubmit={handleSubmit} className='form-horizontal'>
+    <form method='POST' ref={setFormRef} onSubmit={handleSubmit} className='form-horizontal'>
       <input
         ref={setRef}
         name='name'
@@ -27,6 +29,7 @@ const RegisterForm = ({
         id='inputName'
         placeholder='Name'
         style={useAlternateFields ? inputStyle : {}}
+        onChange={onChangeTracking}
       />
       <input
         ref={setRef}
@@ -36,6 +39,7 @@ const RegisterForm = ({
         id='inputEmail'
         placeholder='Email'
         style={useAlternateFields ? inputStyle : {}}
+        onChange={onChangeTracking}
       />
       {includeZipAndPhone && (
         <input
@@ -45,6 +49,7 @@ const RegisterForm = ({
           type='text'
           placeholder='Phone (optional)'
           style={useAlternateFields ? inputStyle : {}}
+          onChange={onChangeTracking}
         />
       )}
       {includeZipAndPhone && (
@@ -55,6 +60,7 @@ const RegisterForm = ({
           type='text'
           placeholder='ZIP Code'
           style={useAlternateFields ? inputStyle : {}}
+          onChange={onChangeTracking}
         />
       )}
       <input
@@ -65,6 +71,7 @@ const RegisterForm = ({
         id='inputPassword'
         placeholder='Password'
         style={useAlternateFields ? inputStyle : {}}
+        onChange={onChangeTracking}
       />
       <input
         name='passwordConfirm'
@@ -74,6 +81,7 @@ const RegisterForm = ({
         id='inputConfirm'
         placeholder='Confirm Password'
         style={useAlternateFields ? inputStyle : {}}
+        onChange={onChangeTracking}
       />
       <div>
         <div className='bump-bottom-2'>
@@ -104,10 +112,12 @@ RegisterForm.propTypes = {
   errorList: PropTypes.func,
   handleSubmit: PropTypes.func,
   setRef: PropTypes.func,
+  setFormRef: PropTypes.func,
   isSubmitting: PropTypes.bool,
   includeZipAndPhone: PropTypes.bool,
   useLaunchButton: PropTypes.bool,
-  useAlternateFields: PropTypes.bool
+  useAlternateFields: PropTypes.bool,
+  onChangeTracking: PropTypes.func
 }
 
 export default RegisterForm

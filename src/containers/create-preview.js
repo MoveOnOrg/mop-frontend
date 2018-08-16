@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import Config from '../config'
+import { FormTracker } from '../lib'
 import { appLocation } from '../routes'
 
 import { submit, devLocalSubmit } from '../actions/createPetitionActions'
@@ -14,12 +15,20 @@ class CreatePreview extends React.Component {
     super(props)
     this.state = { zip: '' }
     this.submitPetition = this.submitPetition.bind(this)
+    this.formTracker = new FormTracker()
+    this.formTracker.setStateOnce(props.trackingState)
   }
+
   componentDidMount() {
     if (!this.props.hasPetition) appLocation.push('/create_start.html')
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.formTracker.setStateOnce(nextProps.trackingState)
+  }
+
   submitPetition() {
+    this.formTracker.submitForm()
     return this.props.dispatch(Config.API_WRITABLE ? submit(this.state.zip) : devLocalSubmit())
   }
 
@@ -32,6 +41,7 @@ class CreatePreview extends React.Component {
         onSubmit={this.submitPetition}
         zip={this.state.zip}
         onChangeZip={e => this.setState({ zip: e.target.value })}
+        formTracker={this.formTracker}
       />
     )
   }
@@ -41,7 +51,8 @@ CreatePreview.propTypes = {
   hasPetition: PropTypes.bool,
   petition: PropTypes.object,
   user: PropTypes.object,
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
+  trackingState: PropTypes.object
 }
 
 function mapStateToProps({ petitionCreateStore, userStore }) {
@@ -52,6 +63,7 @@ function mapStateToProps({ petitionCreateStore, userStore }) {
       !petitionCreateStore.submitted
     ),
     petition: petitionCreateStore,
+    trackingState: petitionCreateStore.trackingState,
     user: userStore
   }
 }

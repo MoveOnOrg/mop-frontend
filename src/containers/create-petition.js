@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
 import { appLocation } from '../routes'
+import { FormTracker } from '../lib'
 import { previewSubmit } from '../actions/createPetitionActions'
 
 import CreatePetitionForm from 'LegacyTheme/create-petition-form'
@@ -40,6 +41,7 @@ export class CreatePetition extends React.Component {
     this.onTargetAdd = this.onTargetAdd.bind(this)
     this.onTargetRemove = this.onTargetRemove.bind(this)
     this.validateAndContinue = this.validateAndContinue.bind(this)
+    this.formTracker = new FormTracker()
   }
 
   onPreview(event) {
@@ -98,6 +100,7 @@ export class CreatePetition extends React.Component {
 
   validateAndContinue() {
     if (this.formIsValid()) {
+      this.formTracker.formAdvanceTracker()
       this.props.dispatch(
         previewSubmit({
           title: this.state.title,
@@ -106,7 +109,8 @@ export class CreatePetition extends React.Component {
           description: this.state.description,
           source: this.state.source,
           clonedFromId: this.state.clonedFromId,
-          solicitId: this.state.solicitId
+          solicitId: this.state.solicitId,
+          trackingState: this.formTracker.getState()
         })
       )
       appLocation.push('/create_preview.html')
@@ -152,12 +156,14 @@ export class CreatePetition extends React.Component {
         <CreatePetitionForm
           setSelected={this.setSelected}
           setRef={this.setRef}
+          setFormRef={ref => { this.form = ref }}
           selected={this.state.selected}
           instructionStyle={instructionStyle}
           errors={this.state.errors}
-          onChange={({ target: { name, value } }) =>
+          onChange={({ target: { name, value } }) => {
             this.setState({ [name]: value })
-          }
+            this.formTracker.updateFormProgress({ fieldchanged: name })
+          }}
           onPreview={this.onPreview}
           title={this.state.title}
           summary={this.state.summary}

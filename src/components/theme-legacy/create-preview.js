@@ -7,7 +7,7 @@ import EditUserForm from 'LegacyTheme/edit-user-form'
 
 const getTargets = target => target.map(t => t.label || t.name).join(', ')
 
-export const CreatePreview = ({ petition, user, onSubmit, zip, onChangeZip }) => (
+export const CreatePreview = ({ petition, user, onSubmit, zip, onChangeZip, formTracker }) => (
   <div className='container background-moveon-white bump-top-1'>
     <div className='container background-moveon-white bump-top-1'>
       <div className='row'>
@@ -47,6 +47,7 @@ export const CreatePreview = ({ petition, user, onSubmit, zip, onChangeZip }) =>
               <RegisterForm
                 successCallback={onSubmit}
                 user={user}
+                formTracker={formTracker}
                 isCreatingPetition
                 includeZipAndPhone
                 useLaunchButton
@@ -119,5 +120,6 @@ CreatePreview.propTypes = {
   user: PropTypes.object,
   onSubmit: PropTypes.func,
   zip: PropTypes.string,
-  onChangeZip: PropTypes.func
+  onChangeZip: PropTypes.func,
+  formTracker: PropTypes.object
 }
