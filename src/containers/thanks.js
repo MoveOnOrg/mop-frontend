@@ -53,8 +53,7 @@ class Thanks extends React.Component {
 
     this.state = {
       sharedSocially: false,
-      pre: getPre(fromSource, petition, this.props.isCreator),
-      whatsApp: (user && user.cohort === 1)
+      pre: getPre(fromSource, petition, this.props.isCreator)
     }
 
     this.recordShare = this.recordShare.bind(this)
@@ -66,8 +65,8 @@ class Thanks extends React.Component {
     this.renderWhatsAppLink = this.renderWhatsAppLink.bind(this)
     this.renderWhatsAppButton = this.renderWhatsAppButton.bind(this)
     this.cohortTracker = new CohortTracker({
-      experiment: 'whatsAppShare2',
-      variationname: (this.state.whatsApp ? 'cohort1' : 'current'),
+      experiment: 'none',
+      variationname: 'current',
       userinfo: this.trackingParams // sending the user signon id or sig hash to identify them
     })
   }
@@ -75,9 +74,6 @@ class Thanks extends React.Component {
   componentDidMount() {
     if (!this.props.nextPetitionsLoaded && !this.props.isCreator) {
       this.props.dispatch(petitionActions.loadTopPetitions(this.props.petition.entity === 'pac' ? 1 : 0, '', false))
-    }
-    if (this.props.user && this.props.user.cohort) {
-      this.cohortTracker.track('whatsapp')
     }
   }
 
@@ -99,7 +95,7 @@ class Thanks extends React.Component {
   short code modes are determined here: `/mop/petitions/petition_shortcode.py`
   */
   renderWhatsAppButton() {
-    return (this.state.whatsApp ?
+    return (
       <WhatsAppButton
         petition={this.props.petition}
         shortLinkMode={this.props.isCreator ? 'v' : 'w'}
@@ -107,11 +103,11 @@ class Thanks extends React.Component {
         recordShare={this.recordShare('whatsapp', `${this.state.pre}.wa`)}
         afterShare={() => this.setState({ sharedSocially: true })}
       />
-      : '')
+    )
   }
 
   renderWhatsAppLink() {
-    return (this.state.whatsApp ?
+    return (
       <WhatsAppLink
         petition={this.props.petition}
         shortLinkMode={this.props.isCreator ? 'v' : 'w'}
@@ -119,7 +115,7 @@ class Thanks extends React.Component {
         recordShare={this.recordShare('whatsapp', `${this.state.pre}.wa`)}
         afterShare={() => this.setState({ sharedSocially: true })}
       />
-      : '')
+    )
   }
 
   renderTwitter() {
