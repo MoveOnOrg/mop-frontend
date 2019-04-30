@@ -51,5 +51,6 @@ InputBlock.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   className: PropTypes.string,
-  setRef: PropTypes.func
+  setRef: PropTypes.func,
+  value: PropTypes.string
 }

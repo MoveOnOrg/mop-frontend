@@ -11,6 +11,7 @@ const Thanks = ({
   renderWhatsAppLink,
   renderWhatsAppButton,
   renderFacebook,
+  renderMessenger,
   renderMail,
   renderCopyPaste,
   nextPetition
@@ -30,8 +31,9 @@ const Thanks = ({
 
         <div className='petition-thanks__cta-group'>
           {renderMail()}
-          {renderWhatsAppButton()}
           {renderFacebook()}
+          {renderMessenger()}
+          {renderWhatsAppButton()}
         </div>
 
         <p>Or copy and paste the text below into a message:</p>
@@ -58,6 +60,7 @@ Thanks.propTypes = {
   renderMail: PropTypes.func,
   renderCopyPaste: PropTypes.func,
   renderRawLink: PropTypes.func,
+  renderMessenger: PropTypes.func,
   nextPetition: PropTypes.object
 }
 

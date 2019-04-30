@@ -5,7 +5,7 @@ import { withWhatsApp } from '../../containers/hoc-whatsapp'
 import WhatsAppWhiteSvg from 'GiraffeUI/svgs/whatsappwhite.svg'
 
 const WhatsAppButton = ({ onClick }) => (
-  <a className='petition-thanks__cta wamobile' onClick={onClick}>
+  <a className='petition-thanks__cta d-lg-none' onClick={onClick}>
     <WhatsAppWhiteSvg />
     Share on WhatsApp
   </a>

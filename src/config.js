@@ -13,6 +13,7 @@ export const Config = {
   STATIC_ROOT: process.env.STATIC_ROOT,
   WORDPRESS_API_URI: process.env.WORDPRESS_API_URI,
   AB_TEST_ENABLED: process.env.AB_TEST_ENABLED,
-  FAKE_ANALYTICS: process.env.FAKE_ANALYTICS
+  FAKE_ANALYTICS: process.env.FAKE_ANALYTICS,
+  MESSENGER_APP_ID: process.env.MESSENGER_APP_ID
 }
 export default Config
