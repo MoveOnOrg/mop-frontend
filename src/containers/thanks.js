@@ -55,7 +55,7 @@ class Thanks extends React.Component {
     this.state = {
       sharedSocially: false,
       pre: getPre(fromSource, petition, this.props.isCreator),
-      messenger: (user && user.cohort === 1)
+      branded: (user && user.cohort === 1)
     }
 
     this.recordShare = this.recordShare.bind(this)
@@ -68,8 +68,8 @@ class Thanks extends React.Component {
     this.renderWhatsAppButton = this.renderWhatsAppButton.bind(this)
     this.renderMessenger = this.renderMessenger.bind(this)
     this.cohortTracker = new CohortTracker({
-      experiment: 'messenger1',
-      variationname: (this.state.messenger ? 'cohort1' : 'current'),
+      experiment: 'branded1',
+      variationname: (this.state.branded ? 'cohort1' : 'current'),
       userinfo: this.trackingParams // sending the user signon id or sig hash to identify them
     })
   }
@@ -78,7 +78,7 @@ class Thanks extends React.Component {
     if (!this.props.nextPetitionsLoaded && !this.props.isCreator) {
       this.props.dispatch(petitionActions.loadTopPetitions(this.props.petition.entity === 'pac' ? 1 : 0, '', false))
     }
-    if (this.props.user && this.props.user.cohort) this.cohortTracker.track('messenger')
+    if (this.props.user && this.props.user.cohort) this.cohortTracker.track('branded')
   }
 
   recordShare(medium, source) {
@@ -106,6 +106,7 @@ class Thanks extends React.Component {
         shortLinkArgs={this.shortLinkArgs}
         recordShare={this.recordShare('whatsapp', `${this.state.pre}.wa`)}
         afterShare={() => this.setState({ sharedSocially: true })}
+        cohort={this.state.branded}
       />
     )
   }
@@ -118,19 +119,21 @@ class Thanks extends React.Component {
         shortLinkArgs={this.shortLinkArgs}
         recordShare={this.recordShare('whatsapp', `${this.state.pre}.wa`)}
         afterShare={() => this.setState({ sharedSocially: true })}
+        cohort={this.state.branded}
       />
     )
   }
 
   renderMessenger() {
     const isMobile = /iPhone/.test(navigator.userAgent) || /Android/.test(navigator.userAgent)
-    return (isMobile && this.state.messenger && Config.MESSENGER_APP_ID ?
+    return (isMobile && Config.MESSENGER_APP_ID ?
       <MessengerButton
         petition={this.props.petition}
         shortLinkMode={this.props.isCreator ? 'd' : 'a'}
         shortLinkArgs={this.shortLinkArgs}
         recordShare={this.recordShare('messenger', `${this.state.pre}.me`)}
         afterShare={() => this.setState({ sharedSocially: true })}
+        cohort={this.state.branded}
       />
       : '')
   }
@@ -143,6 +146,7 @@ class Thanks extends React.Component {
         shortLinkArgs={this.shortLinkArgs}
         recordShare={this.recordShare('twitter', `${this.state.pre}.tw`)}
         afterShare={() => this.setState({ sharedSocially: true })}
+        cohort={this.state.branded}
       />
     )
   }
@@ -155,6 +159,7 @@ class Thanks extends React.Component {
         trackingParams={this.trackingParamsString}
         recordShare={this.recordShare('facebook', `${this.state.pre}.fb`)}
         afterShare={() => this.setState({ sharedSocially: true })}
+        cohort={this.state.branded}
       />
     )
   }
