@@ -25,7 +25,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "core-js": "^2.5.3",
-    "downshift": "^1.30.0",
+    "downshift": "^3.2.10",
     "osdi-client": "MoveOnOrg/osdi-client",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
