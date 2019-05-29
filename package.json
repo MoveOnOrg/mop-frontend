@@ -87,7 +87,7 @@
     "require-hacker": "^3.0.1",
     "sass-loader": "^7.0.3",
     "sinon": "^5.0.2",
-    "style-loader": "^0.21.0",
+    "style-loader": "^0.23.1",
     "svg-react-loader": "^0.4.5",
     "webpack": "4.28.4",
     "webpack-bundle-analyzer": "^2.11.1",
