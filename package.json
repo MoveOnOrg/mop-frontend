@@ -38,7 +38,7 @@
     "react-scroll": "^1.7.10",
     "react-scrollchor": "^5.1.0",
     "react-sparklines": "^1.7.0",
-    "react-textarea-autosize": "^6.1.0",
+    "react-textarea-autosize": "^7.1.0",
     "react-timeout": "^1.1.1",
     "react-waypoint": "^8.0.1",
     "redux": "^4.0.0",
