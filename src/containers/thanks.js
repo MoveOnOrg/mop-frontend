@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { actions as petitionActions } from '../actions/petitionActions'
-import { md5ToToken, stringifyParams } from '../lib'
+import { md5ToToken, stringifyParams, CohortTracker } from '../lib'
 import Config from '../config'
 
 import ThanksComponent from 'Theme/thanks'
@@ -52,7 +52,8 @@ class Thanks extends React.Component {
 
     this.state = {
       sharedSocially: false,
-      pre: getPre(fromSource, petition, this.props.isCreator)
+      pre: getPre(fromSource, petition, this.props.isCreator),
+      branded: (user && user.cohort === 1)
     }
 
     this.recordShare = this.recordShare.bind(this)
@@ -62,12 +63,18 @@ class Thanks extends React.Component {
     this.renderMail = this.renderMail.bind(this)
     this.renderCopyPaste = this.renderCopyPaste.bind(this)
     this.renderRawLink = this.renderRawLink.bind(this)
+    this.cohortTracker = new CohortTracker({
+      experiment: 'branded1',
+      variationname: (this.state.branded ? 'cohort1' : 'current'),
+      userinfo: this.trackingParams // sending the user signon id or sig hash to identify them
+    })
   }
 
   componentDidMount() {
     if (!this.props.nextPetitionsLoaded && !this.props.isCreator) {
       this.props.dispatch(petitionActions.loadTopPetitions(this.props.petition.entity === 'pac' ? 1 : 0, '', false))
     }
+    if (this.props.user && this.props.user.cohort) this.cohortTracker.track('branded')
   }
 
   recordShare(medium, source) {
@@ -96,6 +103,7 @@ class Thanks extends React.Component {
         shortLinkArgs={this.shortLinkArgs}
         recordShare={this.recordShare('twitter', `${this.state.pre}.tw`)}
         afterShare={() => this.setState({ sharedSocially: true })}
+        cohort={this.state.branded}
       />
     )
   }
@@ -108,6 +116,7 @@ class Thanks extends React.Component {
         trackingParams={this.trackingParamsString}
         recordShare={this.recordShare('facebook', `${this.state.pre}.fb`)}
         afterShare={() => this.setState({ sharedSocially: true })}
+        cohort={this.state.branded}
       />
     )
   }
@@ -121,6 +130,7 @@ class Thanks extends React.Component {
         shortLinkArgs={this.shortLinkArgs}
         recordShare={this.recordShare('messenger', `${this.state.pre}.me`)}
         afterShare={() => this.setState({ sharedSocially: true })}
+        cohort={this.state.branded}
       />
      : '')
    }
